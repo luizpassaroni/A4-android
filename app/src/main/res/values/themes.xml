@@ -1,0 +1,19 @@
+<resources>
+    <style name="Base.Theme.PadariaTrigoDourado" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand_gold_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/brand_gold_container</item>
+        <item name="colorOnPrimaryContainer">@color/brand_on_gold_container</item>
+        <item name="colorSurface">@color/brand_surface</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:navigationBarColor">@color/brand_surface</item>
+    </style>
+
+    <style name="Theme.PadariaTrigoDourado" parent="Base.Theme.PadariaTrigoDourado" />
+
+    <style name="Theme.PadariaTrigoDourado.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/brand_surface</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.PadariaTrigoDourado</item>
+    </style>
+</resources>
