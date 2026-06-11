@@ -122,6 +122,34 @@ Como o repositório ainda não possui um projeto configurado na interface do Git
 
 ---
 
+### EPIC 4: Identidade Visual e Enriquecimento de Catálogo (Branding)
+
+**Objetivo:** Fortalecer a presença da marca "Trigo Dourado" estabelecendo uma identidade visual própria e oferecendo uma experiência de vitrine atrativa com imagens reais de produtos.
+
+#### Task 4.1: Criação de Logo e Ícones do Aplicativo
+
+- **Descrição:** Desenvolver e integrar o logotipo oficial da padaria para uso no ícone de lançamento do aplicativo e nas interfaces principais.
+- **Contexto Técnico:**
+  - Desenhar/obter o logo em formato vetorial (`.svg` convertido para `VectorDrawable` no Android Studio) ou `.webp` de alta resolução.
+  - Utilizar a ferramenta _Image Asset Studio_ para gerar o `ic_launcher` adaptativo (foreground e background) para suportar diferentes formatos de ícones do Android.
+  - Substituir os títulos em texto puro na barra superior (TopBar) e na Splash Screen pelo logotipo da marca.
+- **Critérios de Aceitação:**
+  - [ ] O aplicativo deve exibir o logotipo customizado na gaveta de aplicativos do celular, não o ícone padrão do Android.
+  - [ ] A tela inicial e as áreas de destaque devem adotar as cores e a identidade do logo.
+
+#### Task 4.2: Expansão do Catálogo e Integração de Imagens de Produtos
+
+- **Descrição:** Aumentar a variedade de produtos disponíveis na base de dados e implementar o carregamento dinâmico de imagens/ícones ilustrativos para cada item.
+- **Contexto Técnico:**
+  - Atualizar a base de dados (`AppDatabase`) ou o mock no `CardapioViewModel` adicionando novos produtos (ex: bebidas, bolos, doces finos).
+  - Adicionar a dependência da biblioteca **Glide** ou **Picasso** no `build.gradle` (caso as imagens venham de URLs externas) ou mapear os arquivos para a pasta `/res/drawable/`.
+  - Refatorar o `item_produto.xml` e o `item_carrinho.xml` para incluir um componente `ImageView` e atualizar os Adapters correspondentes para renderizar a imagem de acordo com a string/URL salva no banco.
+- **Critérios de Aceitação:**
+  - [ ] O cardápio deve possuir uma lista expandida e categorizada de produtos.
+  - [ ] Cada produto no cardápio e no carrinho deve exibir sua imagem correspondente perfeitamente enquadrada, sem distorção visual.
+
+---
+
 ## Padrões de Engenharia de Versionamento (Git)
 
 Para garantir que o histórico do repositório conte a evolução lógica da arquitetura e facilite revisões de código futuras, as Tasks devem ser integradas utilizando commits granulares baseados na especificação do **Conventional Commits**:
@@ -132,3 +160,4 @@ Para garantir que o histórico do repositório conte a evolução lógica da arq
 | `fix:`            | Correção de um bug visual, de layout ou lógica                       | `fix: ancora snackbar acima da sacola para evitar sobreposição`         |
 | `chore:`          | Atualização de dependências, build gradle ou tarefas administrativas | `chore: adiciona biblioteca jetpack security crypto no build.gradle`    |
 | `docs:`           | Alterações exclusivas na documentação ou comentários                 | `docs: atualiza readme com instrucoes de execucao do banco local Room`  |
+| `style:`          | Ajustes visuais, de formatação ou assets gráficos                    | `style: adiciona logo oficial e icones vetorizados de produtos`         |
