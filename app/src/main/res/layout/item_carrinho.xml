@@ -10,6 +10,8 @@
         android:id="@+id/nome_produto_carrinho"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textAppearance="?attr/textAppearanceTitleSmall"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/remover_item"

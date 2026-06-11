@@ -3,12 +3,12 @@ package com.trigodourado.app.ui.menu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.trigodourado.app.R;
 import com.trigodourado.app.data.model.CartState;
 import com.trigodourado.app.data.model.CategoriaProduto;
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public final class CardapioActivity extends AppCompatActivity {
     private ActivityCardapioBinding binding;
@@ -31,7 +32,6 @@ public final class CardapioActivity extends AppCompatActivity {
     private final NumberFormat moeda =
             NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
     private List<Produto> produtosAtuais = Collections.emptyList();
-    private List<CategoriaProduto> categoriasAtuais = Collections.emptyList();
     private List<CategoriaProduto> categoriasVisiveis = Collections.emptyList();
     private int idCategoriaSelecionada;
     private ProdutosAdapter adapter;
@@ -46,8 +46,10 @@ public final class CardapioActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(CardapioViewModel.class);
         adapter = new ProdutosAdapter(produto -> {
             viewModel.adicionarAoCarrinho(produto);
-            Toast.makeText(this, produto.getNome() + " adicionado à sacola.",
-                    Toast.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), produto.getNome() + " adicionado à sacola",
+                            Snackbar.LENGTH_SHORT)
+                    .setAnchorView(binding.previewSacola)
+                    .show();
         });
         binding.listaProdutos.setLayoutManager(new LinearLayoutManager(this));
         binding.listaProdutos.setAdapter(adapter);
@@ -98,7 +100,7 @@ public final class CardapioActivity extends AppCompatActivity {
     }
 
     private void renderizarCategorias(List<CategoriaProduto> categorias) {
-        categoriasAtuais = categorias == null ? Collections.emptyList() : categorias;
+        List<CategoriaProduto> categoriasAtuais = categorias == null ? Collections.emptyList() : categorias;
         List<CategoriaProduto> ativas = new ArrayList<>();
         binding.categoriasTabs.removeAllTabs();
         int selecionada = 0;
@@ -114,7 +116,7 @@ public final class CardapioActivity extends AppCompatActivity {
         }
         categoriasVisiveis = ativas;
         if (binding.categoriasTabs.getTabAt(selecionada) != null) {
-            binding.categoriasTabs.getTabAt(selecionada).select();
+            Objects.requireNonNull(binding.categoriasTabs.getTabAt(selecionada)).select();
         }
     }
 

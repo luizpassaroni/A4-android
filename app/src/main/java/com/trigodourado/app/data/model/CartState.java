@@ -3,7 +3,7 @@ package com.trigodourado.app.data.model;
 import java.util.List;
 
 public final class CartState {
-    private final List<ItemPedido> itens;
+    private final List<CartItemUI> itens;
     private final int totalItens;
     private final double subtotal;
     private final double taxaEntrega;
@@ -14,7 +14,7 @@ public final class CartState {
     private final EnderecoEntrega enderecoSelecionado;
     private final boolean areaAtendida;
 
-    public CartState(List<ItemPedido> itens, double subtotal, double taxaEntrega, double total,
+    public CartState(List<CartItemUI> itens, double subtotal, double taxaEntrega, double total,
                      boolean fechandoPedido, String mensagemErro,
                      PedidoFinalizado pedidoFinalizado, EnderecoEntrega enderecoSelecionado,
                      boolean areaAtendida) {
@@ -30,7 +30,7 @@ public final class CartState {
         this.areaAtendida = areaAtendida;
     }
 
-    public List<ItemPedido> getItens() { return itens; }
+    public List<CartItemUI> getItens() { return itens; }
     public int getTotalItens() { return totalItens; }
     public double getSubtotal() { return subtotal; }
     public double getTaxaEntrega() { return taxaEntrega; }
@@ -41,9 +41,9 @@ public final class CartState {
     public EnderecoEntrega getEnderecoSelecionado() { return enderecoSelecionado; }
     public boolean isAreaAtendida() { return areaAtendida; }
 
-    private int calcularTotalItens(List<ItemPedido> itens) {
+    private int calcularTotalItens(List<CartItemUI> itens) {
         int quantidade = 0;
-        for (ItemPedido item : itens) {
+        for (CartItemUI item : itens) {
             quantidade += item.getQuantidade();
         }
         return quantidade;

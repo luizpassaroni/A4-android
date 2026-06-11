@@ -48,7 +48,6 @@
     <string name="dashboard_gerente">Painel do gerente</string>
     <string name="avancar_status">Avançar status</string>
     <string name="ativo">Ativo</string>
-    <string name="produto_numero">Produto #%1$d</string>
     <string name="pedido_numero">Pedido #%1$d</string>
     <string name="consulte_cep_valido">Consulte um CEP válido.</string>
     <string name="informe_numero">Informe o número.</string>

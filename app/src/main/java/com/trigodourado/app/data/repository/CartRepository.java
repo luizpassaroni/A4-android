@@ -3,15 +3,14 @@ package com.trigodourado.app.data.repository;
 import androidx.lifecycle.MutableLiveData;
 
 import com.trigodourado.app.data.model.CartState;
+import com.trigodourado.app.data.model.CartItemUI;
 import com.trigodourado.app.data.model.EnderecoEntrega;
 import com.trigodourado.app.data.model.FormaPagamento;
-import com.trigodourado.app.data.model.ItemPedido;
 import com.trigodourado.app.data.model.PedidoFinalizado;
 import com.trigodourado.app.data.model.Produto;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -41,14 +40,15 @@ public final class CartRepository {
         if (produto == null || !produto.isAtivo()) {
             return;
         }
-        List<ItemPedido> itens = copiarItens();
+        List<CartItemUI> itens = copiarItens();
         int indice = localizarProduto(itens, produto.getIdProduto());
         if (indice >= 0) {
-            ItemPedido atual = itens.get(indice);
+            CartItemUI atual = itens.get(indice);
             itens.set(indice, atual.comQuantidade(atual.getQuantidade() + 1));
         } else {
-            itens.add(new ItemPedido(produto.getIdProduto(), 0, produto.getIdProduto(), 1,
-                    produto.getPreco(), produto.getPreco()));
+            itens.add(new CartItemUI(produto.getIdProduto(), produto.getIdProduto(),
+                    produto.getNome(), 1, produto.getPreco(), produto.getPreco(),
+                    produto.getImagem()));
         }
         publicar(itens, false, null, null);
     }
@@ -62,7 +62,7 @@ public final class CartRepository {
     }
 
     public void removerItem(int idProduto) {
-        List<ItemPedido> itens = copiarItens();
+        List<CartItemUI> itens = copiarItens();
         int indice = localizarProduto(itens, idProduto);
         if (indice >= 0) {
             itens.remove(indice);
@@ -93,12 +93,12 @@ public final class CartRepository {
     }
 
     private void alterarQuantidade(int idProduto, int diferenca) {
-        List<ItemPedido> itens = copiarItens();
+        List<CartItemUI> itens = copiarItens();
         int indice = localizarProduto(itens, idProduto);
         if (indice < 0) {
             return;
         }
-        ItemPedido atual = itens.get(indice);
+        CartItemUI atual = itens.get(indice);
         int quantidade = atual.getQuantidade() + diferenca;
         if (quantidade <= 0) {
             itens.remove(indice);
@@ -108,17 +108,17 @@ public final class CartRepository {
         publicar(itens, false, null, null);
     }
 
-    private void publicar(List<ItemPedido> itens, boolean fechando, String erro,
+    private void publicar(List<CartItemUI> itens, boolean fechando, String erro,
                           PedidoFinalizado finalizado) {
         estado.setValue(criarEstado(itens, fechando, erro, finalizado));
     }
 
-    private List<ItemPedido> copiarItens() {
+    private List<CartItemUI> copiarItens() {
         CartState atual = estado.getValue();
         return atual == null ? new ArrayList<>() : new ArrayList<>(atual.getItens());
     }
 
-    private int localizarProduto(List<ItemPedido> itens, int idProduto) {
+    private int localizarProduto(List<CartItemUI> itens, int idProduto) {
         for (int i = 0; i < itens.size(); i++) {
             if (itens.get(i).getIdProduto() == idProduto) {
                 return i;
@@ -127,10 +127,10 @@ public final class CartRepository {
         return -1;
     }
 
-    private CartState criarEstado(List<ItemPedido> itens, boolean fechando, String erro,
+    private CartState criarEstado(List<CartItemUI> itens, boolean fechando, String erro,
                                   PedidoFinalizado finalizado) {
         double subtotal = 0;
-        for (ItemPedido item : itens) {
+        for (CartItemUI item : itens) {
             subtotal += item.getSubtotal();
         }
         boolean areaAtendida = enderecoSelecionado != null && calcularTaxaEntrega() != null;

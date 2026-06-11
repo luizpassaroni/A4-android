@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.trigodourado.app.R;
-import com.trigodourado.app.data.model.ItemPedido;
+import com.trigodourado.app.data.model.CartItemUI;
 import com.trigodourado.app.databinding.ItemCarrinhoBinding;
 
 import java.text.NumberFormat;
@@ -17,19 +16,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public final class ItensCarrinhoAdapter
-        extends ListAdapter<ItemPedido, ItensCarrinhoAdapter.ItemCarrinhoViewHolder> {
-    private static final DiffUtil.ItemCallback<ItemPedido> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<ItemPedido>() {
+        extends ListAdapter<CartItemUI, ItensCarrinhoAdapter.ItemCarrinhoViewHolder> {
+    private static final DiffUtil.ItemCallback<CartItemUI> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull ItemPedido antigo, @NonNull ItemPedido novo) {
+                public boolean areItemsTheSame(@NonNull CartItemUI antigo, @NonNull CartItemUI novo) {
                     return antigo.getIdProduto() == novo.getIdProduto();
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull ItemPedido antigo, @NonNull ItemPedido novo) {
-                    return antigo.getQuantidade() == novo.getQuantidade()
+                public boolean areContentsTheSame(@NonNull CartItemUI antigo, @NonNull CartItemUI novo) {
+                    return Objects.equals(antigo.getNomeProduto(), novo.getNomeProduto())
+                            && antigo.getQuantidade() == novo.getQuantidade()
                             && Double.compare(antigo.getPrecoUnitario(), novo.getPrecoUnitario()) == 0
                             && Double.compare(antigo.getSubtotal(), novo.getSubtotal()) == 0;
                 }
@@ -49,7 +50,7 @@ public final class ItensCarrinhoAdapter
         this.acoes = acoes;
     }
 
-    public void atualizarItens(List<ItemPedido> novosItens) {
+    public void atualizarItens(List<CartItemUI> novosItens) {
         submitList(novosItens == null
                 ? Collections.emptyList()
                 : new ArrayList<>(novosItens));
@@ -76,9 +77,8 @@ public final class ItensCarrinhoAdapter
             this.binding = binding;
         }
 
-        private void bind(ItemPedido item, AcoesCarrinho acoes, NumberFormat moeda) {
-            binding.nomeProdutoCarrinho.setText(binding.getRoot().getContext()
-                    .getString(R.string.produto_numero, item.getIdProduto()));
+        private void bind(CartItemUI item, AcoesCarrinho acoes, NumberFormat moeda) {
+            binding.nomeProdutoCarrinho.setText(item.getNomeProduto());
             binding.quantidadeProduto.setText(String.valueOf(item.getQuantidade()));
             binding.subtotalItem.setText(moeda.format(item.getSubtotal()));
             binding.incrementarQuantidade.setOnClickListener(v -> acoes.incrementar(item.getIdProduto()));

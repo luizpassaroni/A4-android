@@ -9,8 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.trigodourado.app.data.local.AppDatabase;
 import com.trigodourado.app.data.model.CartState;
+import com.trigodourado.app.data.model.CartItemUI;
 import com.trigodourado.app.data.model.EnderecoEntrega;
 import com.trigodourado.app.data.model.FormaPagamento;
+import com.trigodourado.app.data.model.ItemPedido;
 import com.trigodourado.app.data.model.Pedido;
 import com.trigodourado.app.data.model.PedidoFinalizado;
 import com.trigodourado.app.data.model.StatusPedido;
@@ -21,6 +23,8 @@ import com.trigodourado.app.data.repository.PedidoRepository;
 import com.trigodourado.app.data.repository.RepositoryCallback;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CheckoutViewModel extends AndroidViewModel {
     private final CartRepository cartRepository = CartRepository.getInstance();
@@ -59,10 +63,11 @@ public final class CheckoutViewModel extends AndroidViewModel {
         }
         Pedido pedido = new Pedido(0, usuario.getIdUsuario(), LocalDateTime.now().toString(),
                 StatusPedido.RECEBIDO, formaPagamento, carrinho.getSubtotal(),
-                carrinho.getTaxaEntrega(), 0, carrinho.getTotal(), "", carrinho.getItens());
+                carrinho.getTaxaEntrega(), 0, carrinho.getTotal(), "",
+                converterParaItensPedido(carrinho.getItens()));
         estado.setValue(CheckoutState.processando());
         pedidoRepository.confirmarPedido(pedido, carrinho.getEnderecoSelecionado(),
-                new RepositoryCallback<PedidoFinalizado>() {
+                new RepositoryCallback<>() {
                     @Override public void onSuccess(PedidoFinalizado resultado) {
                         cartRepository.limparCarrinho();
                         estado.setValue(CheckoutState.sucesso(resultado));
@@ -71,5 +76,14 @@ public final class CheckoutViewModel extends AndroidViewModel {
                         estado.setValue(CheckoutState.erro(mensagem));
                     }
                 });
+    }
+
+    private List<ItemPedido> converterParaItensPedido(List<CartItemUI> itensCarrinho) {
+        List<ItemPedido> itensPedido = new ArrayList<>();
+        for (CartItemUI item : itensCarrinho) {
+            itensPedido.add(new ItemPedido(item.getIdItem(), 0, item.getIdProduto(),
+                    item.getQuantidade(), item.getPrecoUnitario(), item.getSubtotal()));
+        }
+        return itensPedido;
     }
 }
