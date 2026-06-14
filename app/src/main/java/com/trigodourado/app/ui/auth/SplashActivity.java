@@ -19,7 +19,7 @@ public final class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
-        SessionManager session = new SessionManager(this);
+        SessionManager session = SessionManager.getInstance(this);
         Intent destino;
         if (!session.possuiSessao()) {
             destino = new Intent(this, LoginActivity.class);
