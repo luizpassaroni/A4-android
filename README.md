@@ -1,6 +1,6 @@
 # Sistema Padaria Trigo Dourado
 
-Este projeto consiste em um aplicativo nativo para a plataforma Android desenvolvido como requisito parcial para a disciplina de Desenvolvimento Mobile. O software estabelece uma plataforma de panificação 100% digital focada estritamente no modelo de delivery, otimizando o fluxo desde a captação do pedido até a entrega final ao cliente.
+Este projeto consiste em um aplicativo nativo para a plataforma Android desenvolvido como requisito parcial para a disciplina de Desenvolvimento Mobile na UVA. O software estabelece uma plataforma de panificação 100% digital focada estritamente no modelo de delivery, otimizando o fluxo desde a captação do pedido até a entrega final ao cliente.
 
 ## 1. Escopo do Sistema
 
