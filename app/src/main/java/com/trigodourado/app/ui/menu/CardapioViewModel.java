@@ -31,7 +31,8 @@ public final class CardapioViewModel extends AndroidViewModel {
                     new CategoriaProduto(0, "Todos", "Todos os produtos disponíveis", "", true),
                     new CategoriaProduto(1, "Pães Tradicionais", "Pães frescos da fornada", "", true),
                     new CategoriaProduto(2, "Pães Doces", "Massas doces e folhadas", "", true),
-                    new CategoriaProduto(3, "Bebidas", "Bebidas e acompanhamentos", "", true)
+                    new CategoriaProduto(3, "Bolos", "Bolos", "", true),
+                    new CategoriaProduto(4, "Bebidas", "Bebidas e acompanhamentos", "", true)
             ));
 
     public CardapioViewModel(@NonNull Application application) {
