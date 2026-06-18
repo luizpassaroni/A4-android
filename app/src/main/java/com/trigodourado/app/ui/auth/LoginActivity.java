@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.trigodourado.app.databinding.ActivityLoginBinding;
 import com.trigodourado.app.ui.menu.CardapioActivity;
 import com.trigodourado.app.ui.admin.DashboardActivity;
+import com.trigodourado.app.util.SessionDestination;
+import com.trigodourado.app.util.SessionNavigator;
 import com.trigodourado.app.util.SessionManager;
 import com.trigodourado.app.util.WindowInsetsUtil;
 
@@ -22,6 +24,9 @@ public final class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SessionNavigator.redirectIfNeeded(this, SessionDestination.LOGIN)) {
+            return;
+        }
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         WindowInsetsUtil.aplicarSafeArea(this, binding.getRoot());

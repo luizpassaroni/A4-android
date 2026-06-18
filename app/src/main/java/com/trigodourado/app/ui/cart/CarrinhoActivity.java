@@ -13,6 +13,8 @@ import com.trigodourado.app.data.model.CartState;
 import com.trigodourado.app.data.model.PedidoFinalizado;
 import com.trigodourado.app.ui.adapter.ItensCarrinhoAdapter;
 import com.trigodourado.app.ui.checkout.CheckoutBottomSheet;
+import com.trigodourado.app.util.SessionDestination;
+import com.trigodourado.app.util.SessionNavigator;
 import com.trigodourado.app.util.WindowInsetsUtil;
 
 import java.text.NumberFormat;
@@ -29,6 +31,9 @@ public final class CarrinhoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SessionNavigator.redirectIfNeeded(this, SessionDestination.CARDAPIO)) {
+            return;
+        }
         binding = ActivityCarrinhoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         WindowInsetsUtil.aplicarSafeArea(this, binding.getRoot());

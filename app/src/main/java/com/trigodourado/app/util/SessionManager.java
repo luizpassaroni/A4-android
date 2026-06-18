@@ -8,6 +8,7 @@ import androidx.security.crypto.MasterKey;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Locale;
 
 public final class SessionManager {
     public static final String ROLE_CLIENTE = "CLIENTE";
@@ -38,7 +39,7 @@ public final class SessionManager {
     public void salvarSessao(int idUsuario, String role) {
         preferences.edit()
                 .putInt(KEY_ID_USUARIO, idUsuario)
-                .putString(KEY_ROLE, role == null ? ROLE_CLIENTE : role)
+                .putString(KEY_ROLE, normalizarRole(role))
                 .apply();
     }
 
@@ -51,10 +52,14 @@ public final class SessionManager {
     }
 
     public String getRole() {
-        return preferences.getString(KEY_ROLE, ROLE_CLIENTE);
+        return preferences.getString(KEY_ROLE, "");
     }
 
     public void limparSessao() {
         preferences.edit().clear().apply();
+    }
+
+    private String normalizarRole(String role) {
+        return role == null ? ROLE_CLIENTE : role.trim().toUpperCase(Locale.ROOT);
     }
 }
