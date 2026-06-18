@@ -71,7 +71,10 @@ public final class ProdutosAdapter extends RecyclerView.Adapter<ProdutosAdapter.
             binding.nomeProduto.setText(produto.getNome());
             binding.descricaoProduto.setText(produto.getDescricao());
             binding.precoProduto.setText(moeda.format(produto.getPreco()));
-            binding.imagemProduto.setImageResource(R.mipmap.ic_launcher);
+            int resId = itemView.getContext()
+                    .getResources()
+                    .getIdentifier(produto.getImagem(), "drawable", itemView.getContext().getPackageName());
+            binding.imagemProduto.setImageResource(resId != 0 ? resId : R.drawable.ic_launcher_foreground);
             binding.adicionarProduto.setEnabled(produto.isAtivo());
             binding.adicionarProduto.setOnClickListener(v -> listener.onAdicionarAoCarrinho(produto));
         }

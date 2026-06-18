@@ -8,6 +8,7 @@ import androidx.security.crypto.MasterKey;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Locale;
 
 public final class SessionManager {
     public static final String ROLE_CLIENTE = "CLIENTE";
@@ -16,9 +17,11 @@ public final class SessionManager {
     private static final String KEY_ID_USUARIO = "id_usuario";
     private static final String KEY_ROLE = "role";
 
+    private static volatile SessionManager instance;
+
     private final SharedPreferences preferences;
 
-    public SessionManager(Context context) {
+    private SessionManager(Context context) {
         try {
             MasterKey masterKey = new MasterKey.Builder(context.getApplicationContext())
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -35,10 +38,21 @@ public final class SessionManager {
         }
     }
 
+    public static SessionManager getInstance(Context context) {
+        if (instance == null) {
+            synchronized (SessionManager.class) {
+                if (instance == null) {
+                    instance = new SessionManager(context.getApplicationContext());
+                }
+            }
+        }
+        return instance;
+    }
+
     public void salvarSessao(int idUsuario, String role) {
         preferences.edit()
                 .putInt(KEY_ID_USUARIO, idUsuario)
-                .putString(KEY_ROLE, role == null ? ROLE_CLIENTE : role)
+                .putString(KEY_ROLE, normalizarRole(role))
                 .apply();
     }
 
@@ -51,10 +65,25 @@ public final class SessionManager {
     }
 
     public String getRole() {
-        return preferences.getString(KEY_ROLE, ROLE_CLIENTE);
+        return preferences.getString(KEY_ROLE, "");
     }
 
+    /**
+     * Encerra a sessão atual, removendo todos os dados armazenados.
+     * Atende ao Contexto Técnico da issue (encerrarSessao()).
+     */
+    public void encerrarSessao() {
+        limparSessao();
+    }
+
+    /**
+     * Mantido por compatibilidade com chamadas já existentes no código.
+     */
     public void limparSessao() {
         preferences.edit().clear().apply();
+    }
+
+    private String normalizarRole(String role) {
+        return role == null ? ROLE_CLIENTE : role.trim().toUpperCase(Locale.ROOT);
     }
 }
