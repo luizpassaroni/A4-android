@@ -7,11 +7,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.trigodourado.app.databinding.ActivityHistoricoBinding;
+import com.trigodourado.app.util.SessionDestination;
+import com.trigodourado.app.util.SessionNavigator;
 import com.trigodourado.app.util.WindowInsetsUtil;
 
 public final class HistoricoActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SessionNavigator.redirectIfNeeded(this, SessionDestination.CARDAPIO)) {
+            return;
+        }
         ActivityHistoricoBinding binding = ActivityHistoricoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         WindowInsetsUtil.aplicarSafeArea(this, binding.getRoot());
