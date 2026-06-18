@@ -51,7 +51,7 @@ public final class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, estado.getMensagemErro(), Toast.LENGTH_SHORT).show();
         }
         if (estado.isSucesso()) {
-            SessionManager sessionManager = new SessionManager(this);
+            SessionManager sessionManager = SessionManager.getInstance(this);
             sessionManager.salvarSessao(estado.getUsuario().getIdUsuario(), estado.getUsuario().getRole());
             Intent intent = SessionManager.ROLE_GERENTE.equals(estado.getUsuario().getRole())
                     ? new Intent(this, DashboardActivity.class)

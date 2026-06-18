@@ -16,9 +16,11 @@ public final class SessionManager {
     private static final String KEY_ID_USUARIO = "id_usuario";
     private static final String KEY_ROLE = "role";
 
+    private static volatile SessionManager instance;
+
     private final SharedPreferences preferences;
 
-    public SessionManager(Context context) {
+    private SessionManager(Context context) {
         try {
             MasterKey masterKey = new MasterKey.Builder(context.getApplicationContext())
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -33,6 +35,17 @@ public final class SessionManager {
         } catch (GeneralSecurityException | IOException exception) {
             throw new IllegalStateException("Não foi possível inicializar a sessão segura.", exception);
         }
+    }
+
+    public static SessionManager getInstance(Context context) {
+        if (instance == null) {
+            synchronized (SessionManager.class) {
+                if (instance == null) {
+                    instance = new SessionManager(context.getApplicationContext());
+                }
+            }
+        }
+        return instance;
     }
 
     public void salvarSessao(int idUsuario, String role) {
@@ -54,6 +67,17 @@ public final class SessionManager {
         return preferences.getString(KEY_ROLE, ROLE_CLIENTE);
     }
 
+    /**
+     * Encerra a sessão atual, removendo todos os dados armazenados.
+     * Atende ao Contexto Técnico da issue (encerrarSessao()).
+     */
+    public void encerrarSessao() {
+        limparSessao();
+    }
+
+    /**
+     * Mantido por compatibilidade com chamadas já existentes no código.
+     */
     public void limparSessao() {
         preferences.edit().clear().apply();
     }

@@ -14,7 +14,7 @@ import com.trigodourado.app.util.WindowInsetsUtil;
 public final class DashboardActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SessionManager session = new SessionManager(this);
+        SessionManager session = SessionManager.getInstance(this);
         if (!session.possuiSessao() || !SessionManager.ROLE_GERENTE.equals(session.getRole())) {
             startActivity(new Intent(this, CardapioActivity.class));
             finish();

@@ -20,7 +20,7 @@ public final class HistoricoViewModel extends AndroidViewModel {
         super(application);
         PedidoRepository repository =
                 new PedidoRepository(AppDatabase.getInstance(application).pedidoDao());
-        pedidos = repository.listarPorUsuario(new SessionManager(application).getIdUsuario());
+        pedidos = repository.listarPorUsuario(SessionManager.getInstance(application).getIdUsuario());
     }
 
     public LiveData<List<Pedido>> getPedidos() { return pedidos; }
