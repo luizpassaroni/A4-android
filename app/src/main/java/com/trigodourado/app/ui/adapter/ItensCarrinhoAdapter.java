@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.trigodourado.app.R;
 import com.trigodourado.app.data.model.CartItemUI;
 import com.trigodourado.app.databinding.ItemCarrinhoBinding;
 
@@ -79,6 +80,9 @@ public final class ItensCarrinhoAdapter
 
         private void bind(CartItemUI item, AcoesCarrinho acoes, NumberFormat moeda) {
             binding.nomeProdutoCarrinho.setText(item.getNomeProduto());
+            int resId = binding.getRoot().getContext().getResources()
+                    .getIdentifier(item.getImagemUrl(), "drawable", binding.getRoot().getContext().getPackageName());
+            binding.imagemProdutoCarrinho.setImageResource(resId != 0 ? resId : R.drawable.ic_launcher_foreground);
             binding.quantidadeProduto.setText(String.valueOf(item.getQuantidade()));
             binding.subtotalItem.setText(moeda.format(item.getSubtotal()));
             binding.incrementarQuantidade.setOnClickListener(v -> acoes.incrementar(item.getIdProduto()));
