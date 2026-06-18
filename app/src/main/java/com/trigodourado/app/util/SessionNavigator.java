@@ -36,7 +36,7 @@ public final class SessionNavigator {
     }
 
     public static void openResolvedDestination(AppCompatActivity activity) {
-        SessionManager sessionManager = new SessionManager(activity);
+        SessionManager sessionManager = SessionManager.getInstance(activity);
         SessionDestination destino = resolveDestination(sessionManager);
         sincronizarSessao(sessionManager, destino);
         activity.startActivity(createIntent(activity, destino));
@@ -45,7 +45,7 @@ public final class SessionNavigator {
 
     public static boolean redirectIfNeeded(AppCompatActivity activity,
                                            SessionDestination expectedDestination) {
-        SessionManager sessionManager = new SessionManager(activity);
+        SessionManager sessionManager = SessionManager.getInstance(activity);
         SessionDestination destinoAtual = resolveDestination(sessionManager);
         sincronizarSessao(sessionManager, destinoAtual);
         if (destinoAtual == expectedDestination) {
