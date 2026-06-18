@@ -17,6 +17,8 @@ import com.trigodourado.app.databinding.ActivityCardapioBinding;
 import com.trigodourado.app.ui.adapter.ProdutosAdapter;
 import com.trigodourado.app.ui.cart.CarrinhoActivity;
 import com.trigodourado.app.ui.history.HistoricoActivity;
+import com.trigodourado.app.util.SessionDestination;
+import com.trigodourado.app.util.SessionNavigator;
 import com.trigodourado.app.util.WindowInsetsUtil;
 
 import java.text.NumberFormat;
@@ -39,6 +41,9 @@ public final class CardapioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SessionNavigator.redirectIfNeeded(this, SessionDestination.CARDAPIO)) {
+            return;
+        }
         binding = ActivityCardapioBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         WindowInsetsUtil.aplicarSafeArea(this, binding.getRoot());
