@@ -6,5 +6,6 @@
     <color name="brand_on_gold_container">#241A00</color>
     <color name="brand_surface">#FFF8F0</color>
     <color name="brand_surface_dark">#1E1B16</color>
+    <color name="brand_blue_dark">#0F253E</color>
     <color name="skeleton_light">#E7E1D8</color>
 </resources>

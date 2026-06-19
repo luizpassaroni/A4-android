@@ -49,6 +49,11 @@
     <string name="avancar_status">Avançar status</string>
     <string name="ativo">Ativo</string>
     <string name="pedido_numero">Pedido #%1$d</string>
+    <string name="status_pedido_recebido">Recebido</string>
+    <string name="status_pedido_em_preparo">Em preparo</string>
+    <string name="status_pedido_saindo_para_entrega">Saindo para entrega</string>
+    <string name="status_pedido_entregue">Entregue</string>
+    <string name="status_pedido_cancelado">Cancelado</string>
     <string name="consulte_cep_valido">Consulte um CEP válido.</string>
     <string name="informe_numero">Informe o número.</string>
     <plurals name="total_itens">

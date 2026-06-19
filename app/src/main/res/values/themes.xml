@@ -12,7 +12,7 @@
     <style name="Theme.PadariaTrigoDourado" parent="Base.Theme.PadariaTrigoDourado" />
 
     <style name="Theme.PadariaTrigoDourado.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/brand_surface</item>
+        <item name="windowSplashScreenBackground">@color/brand_blue_dark</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="postSplashScreenTheme">@style/Theme.PadariaTrigoDourado</item>
     </style>
